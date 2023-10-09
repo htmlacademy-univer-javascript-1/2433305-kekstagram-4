@@ -5,6 +5,22 @@ const getRandomInt = (a, b) => {
   return Math.floor(result);
 };
 
+const generateComments = () =>{
+  let comments = [];
+  const numComments = getRandomInt(0,30);
+  for (let i=0; i <= numComments - 1; i++){
+    const comment = {
+      id: i,
+      avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
+      message: getRandomArrayElement(commentsExamples),
+      name: getRandomArrayElement(namesExamples)
+    };
+
+    comments.push(comment);
+  }
+  return comments;
+}
+
 const getPhotoArray = () =>{
   for (let i = 1; i <= 25; i++) {
     const photo = {
@@ -16,26 +32,8 @@ const getPhotoArray = () =>{
     };
     photos.push(photo);
   }
-  console.log(photos);
+  return photos;
 }
-
-const generateComments = () =>{
-  let comments = [];
-  const numComments = getRandomInt(0,30);
-  for (let i=0; i <= numComments - 1; i++){
-    const comment = {
-      id: i,
-      avatar: "img/avatar-" + getRandomInt(1, 6) + ".svg",
-      message: getRandomArrayElement(commentsExamples),
-      name: getRandomArrayElement(namesExamples)
-    };
-
-    comments.push(comment);
-  }
-  return comments;
-}
-
-let photos = [];
 
 const namesExamples = ["Саша","Оля","Андрей","Вика","Коля","Дима","Юля","Леша","Арсений","Валя", "Костя", "Вероника", "Алина"];
 
