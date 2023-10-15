@@ -1,4 +1,4 @@
-export const MAX_LENGHT_ARRAY_PHOTOS = 25;
+export const MAX_LENGTH_ARRAY_PHOTOS = 25;
 
 export const getRandomInt = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
