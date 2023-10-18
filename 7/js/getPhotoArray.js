@@ -1,6 +1,10 @@
 import {getRandomInt, getRandomArrayElement} from './utils.js';
 import {namesExamples, commentsExamples, MAX_LENGTH_ARRAY_PHOTOS} from './data.js';
 
+const NAMES_EXAMPLES = namesExamples();
+const COMMENTS_EXAMPLE = commentsExamples();
+const PHOTOS_COUNT = MAX_LENGTH_ARRAY_PHOTOS();
+
 export const generateComments = () =>{
   const comments = [];
   const numComments = getRandomInt(0, 30);
@@ -8,8 +12,8 @@ export const generateComments = () =>{
     const comment = {
       id: i,
       avatar: `img/avatar-${getRandomInt(1, 6)}.svg`,
-      message: getRandomArrayElement(commentsExamples),
-      name: getRandomArrayElement(namesExamples),
+      message: COMMENTS_EXAMPLE[getRandomInt(0, COMMENTS_EXAMPLE.length - 1)],
+      name: NAMES_EXAMPLES[getRandomInt(0, NAMES_EXAMPLES.length - 1)],
     };
     comments.push(comment);
   }
@@ -18,7 +22,7 @@ export const generateComments = () =>{
 
 export const getPhotoArray = () =>{
   const photos = [];
-  for (let i = 1; i <= MAX_LENGTH_ARRAY_PHOTOS; i++) {
+  for (let i = 1; i <= PHOTOS_COUNT; i++) {
     const photo = {
       id: i,
       url: `photos/${i}.jpg`,
