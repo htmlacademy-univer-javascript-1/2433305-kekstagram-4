@@ -1,10 +1,10 @@
 import { getPhotoArray } from "./getPhotoArray.js";
+import { openPicture } from "./bigPhotoModal.js";
 
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 const randomPosts = getPhotoArray(25);
 const picturesFragment = document.createDocumentFragment();
-
 randomPosts.forEach(({url, description, likes, comments}) => {
   const picture = pictureTemplate.cloneNode(true);
   picture.querySelector('img').src = url;
