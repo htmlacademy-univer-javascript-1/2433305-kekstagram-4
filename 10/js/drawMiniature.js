@@ -1,6 +1,7 @@
 import { getPhotoArray } from "./getPhotoArray.js";
 import { openPicture } from "./bigPhotoModal.js";
 
+export const getRenderedCards = () => {
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 const randomPosts = getPhotoArray(25);
@@ -16,7 +17,5 @@ randomPosts.forEach(({url, description, likes, comments}) => {
   });
   picturesFragment.append(picture);
 });
-
 picturesContainer.append(picturesFragment);
-
-export {randomPosts};
+};
