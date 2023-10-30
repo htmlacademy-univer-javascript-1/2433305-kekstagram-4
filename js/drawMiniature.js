@@ -17,5 +17,6 @@ randomPosts.forEach(({url, description, likes, comments}) => {
   });
   picturesFragment.append(picture);
 });
+
 picturesContainer.append(picturesFragment);
 };
