@@ -1,11 +1,15 @@
-import {getRandomInt, getRandomArrayElement} from './utils.js';
-import {namesExamples, commentsExamples, MAX_LENGTH_ARRAY_PHOTOS} from './data.js';
+import { getRandomInt, getRandomArrayElement } from "./utils.js";
+import {
+  namesExamples,
+  commentsExamples,
+  MAX_LENGTH_ARRAY_PHOTOS,
+} from "./data.js";
 
 const NAMES_EXAMPLES = namesExamples();
 const COMMENTS_EXAMPLE = commentsExamples();
 const PHOTOS_COUNT = MAX_LENGTH_ARRAY_PHOTOS();
 
-export const generateComments = () =>{
+export const generateComments = () => {
   const comments = [];
   const numComments = getRandomInt(0, 30);
   for (let i = 0; i <= numComments - 1; i++) {
@@ -20,7 +24,7 @@ export const generateComments = () =>{
   return comments;
 };
 
-export const getPhotoArray = () =>{
+export const getPhotoArray = () => {
   const photos = [];
   for (let i = 1; i <= PHOTOS_COUNT; i++) {
     const photo = {
