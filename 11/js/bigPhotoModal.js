@@ -10,6 +10,7 @@ const onDocumentKeydown = (evt) => {
 const showNextComments = () => {
   let currentComment = document.querySelector(".social__comment.hidden");
   let i = 0;
+
   for (; i < 5; i++) {
     if (currentComment === null) {
       commentsLoader.classList.add("hidden");
@@ -17,8 +18,13 @@ const showNextComments = () => {
     }
     currentComment.classList.remove("hidden");
     currentComment = currentComment.nextElementSibling;
+    if (currentComment === null) {
+      commentsLoader.classList.add("hidden");
+      document.querySelector(".loaded-comments-count").textContent =
+        +document.querySelector(".loaded-comments-count").textContent + 1;
+      break;
+    }
   }
-
   document.querySelector(".loaded-comments-count").textContent =
     +document.querySelector(".loaded-comments-count").textContent + i;
 };
