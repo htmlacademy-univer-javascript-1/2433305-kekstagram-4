@@ -1,3 +1,5 @@
+import { onDocumentKeydown } from "./utils.js";
+
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const imgOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -16,15 +18,15 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error'
 });
 
-function validateHashtagsCount(value) {
+const validateHashtagsCount = (value) => {
   return value.trim().split(' ').length <= 5;
 }
 
-function validateHashtagsUniqueness(value) {
-  return (new Set(value.trim().split(' '))).size === value.trim().split(' ').length;
+const validateHashtagsUniqueness = (value) => {
+  return value.trim().split(' ').includes(value.trim()) == false;
 }
 
-function validateHashtags(value) {
+const validateHashtags = (value) => {
   if (value.length === 0) {
     return true;
   }
@@ -55,7 +57,7 @@ pristine.addValidator(
   'Ошибка в хештеге'
 );
 
-function validateDescription(value) {
+const validateDescription = (value) => {
   return value.trim().length <= 140;
 }
 
@@ -65,29 +67,29 @@ pristine.addValidator(
   'Длина описания не может быть больше 140 символов'
 );
 
-function hideOverlay() {
+const hideOverlay = () => {
   imgOverlay.classList.add('hidden');
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
 }
 
-function showOverlay() {
+const showOverlay = () => {
   imgOverlay.classList.remove('hidden');
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
 }
 
-function openOverlay(evt) {
+const openOverlay = (evt) =>{
   imgOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   closeButton.addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
   uploadInput.removeEventListener('click', openOverlay);
 }
 
-function closeOverlay(evt) {
+const closeOverlay = (evt) => {
   imgOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', closeOverlay);
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
   uploadInput.addEventListener('click', openOverlay);
   uploadInput.value = null;
   hashtagsField.textContent = '';
@@ -95,9 +97,3 @@ function closeOverlay(evt) {
 }
 
 uploadInput.addEventListener('change', openOverlay);
-
-function onDocumentKeydown(evt) {
-  if (evt.key === 'Escape') {
-    closeOverlay(evt);
-  }
-}
