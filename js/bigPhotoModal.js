@@ -1,11 +1,17 @@
+import { onDocumentKeydown } from "./utils.js";
+
 const commentTemplate = document.querySelector(".social__comment");
 const commentsLoader = document.querySelector(".comments-loader");
 
+/*
 const onDocumentKeydown = (evt) => {
   if (evt.key === "Escape") {
     closePicture(evt);
   }
 };
+*/
+
+
 
 const showNextComments = () => {
   let currentComment = document.querySelector(".social__comment.hidden");
@@ -61,7 +67,7 @@ function openPicture(evt, url, description, likes, comments) {
   openedPicture
     .querySelector(".big-picture__cancel")
     .addEventListener("click", closePicture);
-  document.addEventListener("keydown", onDocumentKeydown);
+  document.addEventListener("keydown", onDocumentKeydown(closePicture));
 
   openedPicture
     .querySelector(".social__comments-loader")
@@ -72,7 +78,7 @@ function closePicture(evt) {
   document.body.classList.remove("modal-open");
   document.querySelector(".big-picture").classList.add("hidden");
   evt.target.removeEventListener("click", closePicture);
-  document.removeEventListener("keydown", onDocumentKeydown);
+  document.removeEventListener("keydown", onDocumentKeydown(closePicture));
   document
     .querySelector(".social__comments-loader")
     .removeEventListener("click", showNextComments);
