@@ -5,4 +5,10 @@ export const getRandomInt = (a, b) => {
   return Math.floor(result);
 };
 
+export const onDocumentKeydown = (evt, closingFunc) => {
+  if (evt.key === "Escape") {
+    closingFunc(evt);
+  }
+};
+
 export const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.length - 1)];
