@@ -1,4 +1,4 @@
-import {commentMessages, commentNames} from './data.js';
+//import {commentMessages, commentNames} from './data.js';
 
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
@@ -23,7 +23,7 @@ function createRandomIdFromRangeGenerator (min, max) {
     return currentValue;
   };
 }
-
+/*
 function getRandomCommentMessage() {
   let output = '';
   for (let i = 0; i < getRandomInteger(1, 2); ++i) {
@@ -65,6 +65,7 @@ function createPost() {
 function createPosts(n) {
   return Array.from({length: n}, createPost);
 }
+*/
 
 function debounce (callback, timeoutDelay = 500) {
   let timeoutId;
@@ -86,4 +87,4 @@ function shuffle(arr){
   return arr;
 }
 
-export {getRandomInteger, createRandomIdFromRangeGenerator, getRandomCommentMessage, getRandomCommentName, createPosts, debounce, shuffle};
+export {getRandomInteger, createRandomIdFromRangeGenerator, debounce, shuffle};
