@@ -1,9 +1,11 @@
-import { onDocumentKeydown } from './utils.js';
+import {getNumberFromString} from './functions.js';
+import { sendData } from './data-loader.js';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const imgOverlay = uploadForm.querySelector('.img-upload__overlay');
 const closeButton = uploadForm.querySelector('.img-upload__cancel');
+const uploadButton = uploadForm.querySelector('#upload-submit');
 const hashtagsField = uploadForm.querySelector('.text__hashtags');
 const descriptionField = uploadForm.querySelector('.text__description');
 const scaleSmaller = uploadForm.querySelector('.scale__control--smaller');
@@ -14,7 +16,9 @@ const slider = uploadForm.querySelector('.effect-level__slider');
 const effectLevelValue = uploadForm.querySelector('.effect-level__value');
 const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
 
-//Validation of fieldsets
+
+//---------------------- Validation --------------------------
+
 const regExp = /^#[0-9a-zа-яё]{1,19}$/i;
 
 const pristine = new Pristine(uploadForm, {
@@ -26,16 +30,15 @@ const pristine = new Pristine(uploadForm, {
   errorTextClass: 'img-upload__error'
 });
 
-const validateHashtagsCount = (value) => {
+function validateHashtagsCount(value) {
   return value.trim().split(' ').length <= 5;
 }
 
-
-const validateHashtagsUniqueness = (value) => {
-  return value.trim().split(' ').includes(value.trim()) == false;
+function validateHashtagsUniqueness(value) {
+  return (new Set(value.trim().split(' '))).size === value.trim().split(' ').length;
 }
 
-const validateHashtags = (value) => {
+function validateHashtags(value) {
   if (value.length === 0) {
     return true;
   }
@@ -66,7 +69,7 @@ pristine.addValidator(
   'Ошибка в хештеге'
 );
 
-const validateDescription = (value) => {
+function validateDescription(value) {
   return value.trim().length <= 140;
 }
 
@@ -75,66 +78,104 @@ pristine.addValidator(
   validateDescription,
   'Длина описания не может быть больше 140 символов'
 );
-//End of validation of fieldsets
+
+//------------------- End validation ------------------------
 
 
-//Overlay controllers
-const hideOverlay = () => {
+//----------- Switching keydown event on body based on focusing/unfocusing fiels -------------
+
+hashtagsField.addEventListener('focus', (evt) => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+});
+
+hashtagsField.addEventListener('focusout', (evt) => {
+  document.addEventListener('keydown', onDocumentKeydown);
+});
+
+descriptionField.addEventListener('focus', (evt) => {
+  document.removeEventListener('keydown', onDocumentKeydown);
+});
+
+descriptionField.addEventListener('focusout', (evt) => {
+  document.addEventListener('keydown', onDocumentKeydown);
+});
+
+//--------- End switching ---------------------------------------------------------------------
+
+
+//--------- Opening and closing overlay ----------
+function hideOverlay() {
   imgOverlay.classList.add('hidden');
-  document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
+  document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const showOverlay = () => {
+function showOverlay() {
   imgOverlay.classList.remove('hidden');
-  document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
+  document.addEventListener('keydown', onDocumentKeydown);
 }
 
-const openOverlay = (evt) =>{
+function openOverlay(evt) {
+  setDefaultScale();
+  setDefaultFilter();
   imgOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   closeButton.addEventListener('click', closeOverlay);
-  document.addEventListener('keydown', onDocumentKeydown(closeOverlay));
-  uploadInput.removeEventListener('click', openOverlay);
-  setDefaultScale();
+  document.addEventListener('keydown', onDocumentKeydown);
+  uploadInput.removeEventListener('ckick', openOverlay);
+  imgOverlay.querySelector('img').src = URL.createObjectURL(evt.target.files[0]);
 }
 
-const closeOverlay = (evt) => {
+function closeOverlay(evt) {
   imgOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', closeOverlay);
-  document.removeEventListener('keydown', onDocumentKeydown(closeOverlay));
-  uploadInput.addEventListener('click', openOverlay);
+  document.removeEventListener('keydown', onDocumentKeydown);
+  uploadInput.addEventListener('ckick', openOverlay);
   uploadInput.value = null;
+  setDefaultFilter();
+  setDefaultScale();
   hashtagsField.textContent = '';
   descriptionField.textContent = '';
 }
 
 uploadInput.addEventListener('change', openOverlay);
-//End of overlay controllers
 
-//Scaling controllers
-const setDefaultScale = () => {
+function onDocumentKeydown(evt) {
+  if (evt.key === 'Escape') {
+    closeOverlay(evt);
+  }
+}
+
+//----------- End overlay ------------------------
+
+
+//----------- Scaling image ----------------------
+
+function setDefaultScale() {
   scaleValue.value = '100%';
   previewPicture.style.transform = 'scale(1)';
 }
 
-const onScaleBigger = (evt) => {
-  const currentValue = parseInt(scaleValue.value);
+function onScaleBigger(evt) {
+  const currentValue = getNumberFromString(scaleValue.value);
   scaleValue.value = currentValue <= 75 ? `${currentValue + 25}%` : `${currentValue}%`;
-  previewPicture.style.transform = `scale(${parseInt(scaleValue.value) * 0.01})`;
+  previewPicture.style.transform = `scale(${getNumberFromString(scaleValue.value) * 0.01})`;
 }
 
-const onScaleSmaller = (evt) => {
-  const currentValue = parseInt(scaleValue.value)
+function onScaleSmaller(evt) {
+  const currentValue = getNumberFromString(scaleValue.value);
   scaleValue.value = currentValue >= 50 ? `${currentValue - 25}%` : `${currentValue}%`;
-  previewPicture.style.transform = `scale(${parseInt(scaleValue.value) * 0.01})`
+  previewPicture.style.transform = `scale(${getNumberFromString(scaleValue.value) * 0.01})`;
 }
 
 scaleBigger.addEventListener('click', onScaleBigger);
 scaleSmaller.addEventListener('click', onScaleSmaller);
-//End of scaling controllers
 
-//Filters controllers
+//----------- End scaling ------------------------
+
+
+//----------- Filtering image --------------------
+
 noUiSlider.create(slider, {
   range: {
     min: 0,
@@ -251,3 +292,49 @@ slider.noUiSlider.on('update', () => {
 document.querySelectorAll('.effects__radio').forEach((li) => {
   li.addEventListener('click', onFilterClick);
 });
+
+//----------- End filtering ----------------------
+
+function addPicture() {
+  const picture = document.querySelector('#picture').content.querySelector('.picture').cloneNode(false);
+  const newImg = previewPicture.cloneNode(true);
+  newImg.height = '182';
+  newImg.width = '182';
+  picture.append(newImg);
+  document.querySelector('.pictures.container').append(picture);
+}
+
+const blockSubmitButton = () => {
+  uploadButton.disabled = true;
+  uploadButton.textContent = 'Публикуем...';
+};
+
+const unblockSubmitButton = () => {
+  uploadButton.disabled = false;
+  uploadButton.textContent = 'Опубликовать';
+};
+
+const setUserFormSubmit = (onSuccess, onError) => {
+  uploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(new FormData(evt.target))
+        .then(() => {
+          onSuccess();
+          addPicture();
+          closeOverlay();
+        })
+        .catch(() => {
+          onError();
+          hideOverlay();
+        })
+        .finally(() => {
+          unblockSubmitButton();
+        });
+    }
+  });
+};
+
+export{setUserFormSubmit, showOverlay};

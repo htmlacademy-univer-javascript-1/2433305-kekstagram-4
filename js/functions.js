@@ -1,12 +1,36 @@
-const polyndromCheck = (string) => (string.toLowerCase().replaceAll(' ', '') === string.toLowerCase().replaceAll(' ', '').reverse())
-
-const lengthCheck = (string, length) => {return string.length >= length;};
-
-const getWorkOver = (startJob, endJob, currentStart, actualJobTime) => {
-  startJobMinutes = Number(startJob.split(':')[0])*60 + Number(startJob.split(':')[1]);
-  endJobMinutes = Number(endJob.split(':')[0])*60 + Number(endJob.split(':')[1]);
-  currentStartJob = Number(currentStart.split(':')[0]*60) + Number(currentStart.split(':')[1]);
-  currentEndJob = currentStartJob + actualJobTime;
-
-  return (endJobMinutes >= currentEndJob && currentEndJob >= startJobMinutes)
+function isValidLength(str, maxLength) {
+  return str.length <= maxLength;
 }
+
+function isPalindrome(str) {
+  const len = str.length;
+  for (let i = 0; i < len / 2; i++) {
+    if (str.at(i) !== str.at(len - 1 - i)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function getNumberFromString(str) {
+  let num = '';
+  const digits = '0123456789';
+  for (let i = 0; i < str.length; i++) {
+    if (digits.includes(str.at(i))) {
+      num += str.at(i);
+    }
+  }
+  return +num;
+}
+
+function checkMeetingAccuracy(dayBegin, dayEnd, meetingBegin, duration) {
+  const dayBeginTime = dayBegin.split(':');
+  const dayEndTime = dayEnd.split(':');
+  const meetingBeginTime = meetingBegin.split(':');
+  const dayBeginMinutes = (+dayBeginTime[0]) * 60 + (+dayBeginTime[1]);
+  const dayEndMinutes = (+dayEndTime[0]) * 60 + (+dayEndTime[1]);
+  const meetingBeginMinutes = (+meetingBeginTime[0]) * 60 + (+meetingBeginTime[1]);
+  return dayBeginMinutes <= meetingBeginMinutes && meetingBeginMinutes + duration <= dayEndMinutes;
+}
+
+export {getNumberFromString};

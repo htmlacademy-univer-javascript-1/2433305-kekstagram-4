@@ -1,4 +1,6 @@
-import { getPhotoArray } from "./getPhotoArray.js";
-import { getRenderedCards } from "./drawMiniature.js";
-const photos = getPhotoArray();
-getRenderedCards();
+import { openFormSuccessMessage, openFormErrorMessage } from './alerts.js';
+import { setUserFormSubmit } from './downloadNewPost.js';
+import { setDataFromServer } from './data-receiver.js';
+
+setUserFormSubmit(openFormSuccessMessage, openFormErrorMessage);
+setDataFromServer();
