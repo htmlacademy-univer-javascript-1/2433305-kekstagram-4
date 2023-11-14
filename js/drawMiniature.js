@@ -38,5 +38,4 @@ const renderPictures = (postsInp) => {
   picturesContainer.append(picturesFragment);
 };
 
-
 export {renderPictures};
