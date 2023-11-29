@@ -305,12 +305,12 @@ function addPicture() {
 }
 
 const blockSubmitButton = () => {
-  uploadButton.disabled = true;
+  uploadButton.setAttribute('disabled', true);
   uploadButton.textContent = 'Публикуем...';
 };
 
 const unblockSubmitButton = () => {
-  uploadButton.disabled = false;
+  uploadButton.removeAttribute('disabled');
   uploadButton.textContent = 'Опубликовать';
 };
 
