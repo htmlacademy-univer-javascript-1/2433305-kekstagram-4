@@ -84,19 +84,19 @@ pristine.addValidator(
 
 //----------- Switching keydown event on body based on focusing/unfocusing fiels -------------
 
-hashtagsField.addEventListener('focus', (evt) => {
+hashtagsField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 });
 
-hashtagsField.addEventListener('focusout', (evt) => {
+hashtagsField.addEventListener('focusout', () => {
   document.addEventListener('keydown', onDocumentKeydown);
 });
 
-descriptionField.addEventListener('focus', (evt) => {
+descriptionField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 });
 
-descriptionField.addEventListener('focusout', (evt) => {
+descriptionField.addEventListener('focusout', () => {
   document.addEventListener('keydown', onDocumentKeydown);
 });
 
@@ -121,16 +121,16 @@ function openOverlay(evt) {
   document.body.classList.add('modal-open');
   closeButton.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onDocumentKeydown);
-  uploadInput.removeEventListener('ckick', openOverlay);
+  uploadInput.removeEventListener('click', openOverlay);
   imgOverlay.querySelector('img').src = URL.createObjectURL(evt.target.files[0]);
 }
 
-function closeOverlay(evt) {
+function closeOverlay() {
   imgOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', closeOverlay);
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadInput.addEventListener('ckick', openOverlay);
+  uploadInput.addEventListener('click', openOverlay);
   uploadInput.value = null;
   setDefaultFilter();
   setDefaultScale();
@@ -156,13 +156,13 @@ function setDefaultScale() {
   previewPicture.style.transform = 'scale(1)';
 }
 
-function onScaleBigger(evt) {
+function onScaleBigger() {
   const currentValue = getNumberFromString(scaleValue.value);
   scaleValue.value = currentValue <= 75 ? `${currentValue + 25}%` : `${currentValue}%`;
   previewPicture.style.transform = `scale(${getNumberFromString(scaleValue.value) * 0.01})`;
 }
 
-function onScaleSmaller(evt) {
+function onScaleSmaller() {
   const currentValue = getNumberFromString(scaleValue.value);
   scaleValue.value = currentValue >= 50 ? `${currentValue - 25}%` : `${currentValue}%`;
   previewPicture.style.transform = `scale(${getNumberFromString(scaleValue.value) * 0.01})`;
@@ -310,7 +310,7 @@ const blockSubmitButton = () => {
 };
 
 const unblockSubmitButton = () => {
-  uploadButton.removeAttribute('disabled');
+  uploadButton.setAttribute('disabled', false);
   uploadButton.textContent = 'Опубликовать';
 };
 

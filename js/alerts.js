@@ -34,7 +34,7 @@ function closeErrorMessage() {
   showOverlay();
 }
 
-function onSuccessButtonClick(evt) {
+function onSuccessButtonClick() {
   closeSuccessMessage();
 }
 
@@ -50,7 +50,7 @@ function onSuccessClick(evt) {
   }
 }
 
-function onErrorButtonClick(evt) {
+function onErrorButtonClick() {
   closeErrorMessage();
 }
 
