@@ -30,8 +30,8 @@ const renderPictures = (postsInp) => {
     picture.querySelector('img').alt = description;
     picture.querySelector('.picture__likes').textContent = likes;
     picture.querySelector('.picture__comments').textContent = comments.length;
-    picture.addEventListener('click', (evt) => {
-      openPicture(evt, url, description, likes, comments);
+    picture.addEventListener('click', () => {
+      openPicture(url, description, likes, comments);
     });
     picturesFragment.append(picture);
   });

@@ -43,7 +43,7 @@ const loadAllComments = (commentsContainer, comments) => {
   commentsContainer.append(commentsFragment);
 };
 
-function openPicture(evt, url, description, likes, comments) {
+function openPicture(url, description, likes, comments) {
   const openedPicture = document.querySelector('.big-picture');
   openedPicture.classList.remove('hidden');
   openedPicture.querySelector('.big-picture__img img').src = url;
