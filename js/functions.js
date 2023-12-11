@@ -33,4 +33,8 @@ function checkMeetingAccuracy(dayBegin, dayEnd, meetingBegin, duration) {
   return dayBeginMinutes <= meetingBeginMinutes && meetingBeginMinutes + duration <= dayEndMinutes;
 }
 
+isValidLength('121',3);
+isPalindrome('шалаш');
+checkMeetingAccuracy('12:30', '16:30', '13:0', 600);
+
 export {getNumberFromString};
