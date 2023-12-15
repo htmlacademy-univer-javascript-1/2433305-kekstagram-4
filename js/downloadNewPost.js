@@ -15,7 +15,7 @@ const previewPicture = uploadForm.querySelector('.img-upload__preview img');
 const slider = uploadForm.querySelector('.effect-level__slider');
 const effectLevelValue = uploadForm.querySelector('.effect-level__value');
 const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
-
+const effectsPicture = uploadForm.querySelectorAll('.effects__preview');
 
 //---------------------- Validation --------------------------
 
@@ -123,6 +123,10 @@ function openOverlay(evt) {
   document.addEventListener('keydown', onDocumentKeydown);
   uploadInput.removeEventListener('ckick', openOverlay);
   imgOverlay.querySelector('img').src = URL.createObjectURL(evt.target.files[0]);
+  const imageURL = imgOverlay.querySelector('img').src;
+  effectsPicture.forEach((element) => {
+    element.style.backgroundImage = `url('${imageURL}')`;
+  });
 }
 
 function closeOverlay() {
@@ -130,7 +134,7 @@ function closeOverlay() {
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', closeOverlay);
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadInput.addEventListener('ckick', openOverlay);
+  uploadInput.addEventListener('click', openOverlay);
   uploadInput.value = null;
   setDefaultFilter();
   setDefaultScale();
