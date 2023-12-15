@@ -14,9 +14,7 @@ const showAlert = (message) => {
   alertContainer.style.fontSize = '30px';
   alertContainer.style.textAlign = 'center';
   alertContainer.style.backgroundColor = 'red';
-
   alertContainer.textContent = message;
-
   document.body.append(alertContainer);
 
   setTimeout(() => {
@@ -34,8 +32,9 @@ const setDataFromServer = () => {
         500,
       ));
     })
-    .catch((error) => {
-      showAlert(error.message);
+    .catch(() => {
+      const message = 'Ошибка загрузки данных с сервера';
+      showAlert(message);
     });
 };
 
