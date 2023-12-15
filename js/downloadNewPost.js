@@ -1,6 +1,5 @@
 import {getNumberFromString} from './functions.js';
 import { sendData } from './data-loader.js';
-
 const uploadForm = document.querySelector('.img-upload__form');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
 const imgOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -18,9 +17,7 @@ const sliderContainer = uploadForm.querySelector('.img-upload__effect-level');
 const effectsPicture = uploadForm.querySelectorAll('.effects__preview');
 
 //---------------------- Validation --------------------------
-
 const regExp = /^#[0-9a-zа-яё]{1,19}$/i;
-
 const pristine = new Pristine(uploadForm, {
   classTo: 'img-upload__field-wrapper',
   errorClass: 'img-upload--invalid',
@@ -29,15 +26,12 @@ const pristine = new Pristine(uploadForm, {
   errorTextTag: 'div',
   errorTextClass: 'img-upload__error'
 });
-
 function validateHashtagsCount(value) {
   return value.trim().split(' ').length <= 5;
 }
-
 function validateHashtagsUniqueness(value) {
   return (new Set(value.trim().split(' '))).size === value.trim().split(' ').length;
 }
-
 function validateHashtags(value) {
   if (value.length === 0) {
     return true;
@@ -50,40 +44,32 @@ function validateHashtags(value) {
   }
   return true;
 }
-
 pristine.addValidator(
   hashtagsField,
   validateHashtagsCount,
   'Максимальное допустимое количество хэштегов - 5'
 );
-
 pristine.addValidator(
   hashtagsField,
   validateHashtagsUniqueness,
   'Не должно быть повторяющихся хэштегов'
 );
-
 pristine.addValidator(
   hashtagsField,
   validateHashtags,
   'Ошибка в хештеге'
 );
-
 function validateDescription(value) {
   return value.trim().length <= 140;
 }
-
 pristine.addValidator(
   descriptionField,
   validateDescription,
   'Длина описания не может быть больше 140 символов'
 );
-
 //------------------- End validation ------------------------
 
-
 //----------- Switching keydown event on body based on focusing/unfocusing fiels -------------
-
 hashtagsField.addEventListener('focus', () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 });
@@ -102,18 +88,15 @@ descriptionField.addEventListener('focusout', () => {
 
 //--------- End switching ---------------------------------------------------------------------
 
-
 //--------- Opening and closing overlay ----------
 function hideOverlay() {
   imgOverlay.classList.add('hidden');
   document.removeEventListener('keydown', onDocumentKeydown);
 }
-
 function showOverlay() {
   imgOverlay.classList.remove('hidden');
   document.addEventListener('keydown', onDocumentKeydown);
 }
-
 function openOverlay(evt) {
   setDefaultScale();
   setDefaultFilter();
@@ -121,7 +104,7 @@ function openOverlay(evt) {
   document.body.classList.add('modal-open');
   closeButton.addEventListener('click', closeOverlay);
   document.addEventListener('keydown', onDocumentKeydown);
-  uploadInput.removeEventListener('ckick', openOverlay);
+  uploadInput.removeEventListener('click', openOverlay);
   imgOverlay.querySelector('img').src = URL.createObjectURL(evt.target.files[0]);
   const imageURL = imgOverlay.querySelector('img').src;
   effectsPicture.forEach((element) => {
@@ -134,27 +117,21 @@ function closeOverlay() {
   document.body.classList.remove('modal-open');
   closeButton.removeEventListener('click', closeOverlay);
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadInput.addEventListener('click', openOverlay);
+  uploadInput.addEventListener('ckick', openOverlay);
   uploadInput.value = null;
   setDefaultFilter();
   setDefaultScale();
   hashtagsField.textContent = '';
   descriptionField.textContent = '';
 }
-
 uploadInput.addEventListener('change', openOverlay);
-
 function onDocumentKeydown(evt) {
   if (evt.key === 'Escape') {
     closeOverlay(evt);
   }
 }
-
 //----------- End overlay ------------------------
-
-
 //----------- Scaling image ----------------------
-
 function setDefaultScale() {
   scaleValue.value = '100%';
   previewPicture.style.transform = 'scale(1)';
@@ -171,15 +148,10 @@ function onScaleSmaller() {
   scaleValue.value = currentValue >= 50 ? `${currentValue - 25}%` : `${currentValue}%`;
   previewPicture.style.transform = `scale(${getNumberFromString(scaleValue.value) * 0.01})`;
 }
-
 scaleBigger.addEventListener('click', onScaleBigger);
 scaleSmaller.addEventListener('click', onScaleSmaller);
-
 //----------- End scaling ------------------------
-
-
 //----------- Filtering image --------------------
-
 noUiSlider.create(slider, {
   range: {
     min: 0,
@@ -200,12 +172,10 @@ noUiSlider.create(slider, {
     },
   },
 });
-
 function setDefaultFilter() {
   previewPicture.style.filter = 'none';
   sliderContainer.style.display = 'none';
 }
-
 function onFilterClick(evt) {
   const effect = evt.target.value;
   setDefaultFilter();
@@ -270,7 +240,6 @@ function onFilterClick(evt) {
       break;
   }
 }
-
 slider.noUiSlider.on('update', () => {
   effectLevelValue.value = slider.noUiSlider.get();
   const effect = uploadForm.querySelector('.effects__radio:checked').value;
@@ -292,13 +261,10 @@ slider.noUiSlider.on('update', () => {
       break;
   }
 });
-
 document.querySelectorAll('.effects__radio').forEach((li) => {
   li.addEventListener('click', onFilterClick);
 });
-
 //----------- End filtering ----------------------
-
 function addPicture() {
   const picture = document.querySelector('#picture').content.querySelector('.picture').cloneNode(false);
   const newImg = previewPicture.cloneNode(true);
@@ -307,17 +273,14 @@ function addPicture() {
   picture.append(newImg);
   document.querySelector('.pictures.container').append(picture);
 }
-
 const blockSubmitButton = () => {
   uploadButton.disabled = true;
   uploadButton.textContent = 'Публикуем...';
 };
-
 const unblockSubmitButton = () => {
   uploadButton.disabled = false;
   uploadButton.textContent = 'Опубликовать';
 };
-
 const setUserFormSubmit = (onSuccess, onError) => {
   uploadForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
@@ -340,5 +303,4 @@ const setUserFormSubmit = (onSuccess, onError) => {
     }
   });
 };
-
 export{setUserFormSubmit, showOverlay};
