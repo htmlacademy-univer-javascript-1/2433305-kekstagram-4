@@ -5,6 +5,12 @@ const successButton = successMessage.querySelector('.success__button');
 const errorMessage = document.querySelector('#error').content.querySelector('.error').cloneNode(true);
 const errorButton = errorMessage.querySelector('.error__button');
 
+function onEscapeKeydown(evt, action) {
+  if (evt.key === 'Escape'){
+    action();
+  }
+}
+
 function openFormSuccessMessage() {
   document.body.append(successMessage);
   successButton.addEventListener('click', onSuccessButtonClick);
@@ -39,9 +45,7 @@ function onSuccessButtonClick() {
 }
 
 function onSuccessKeydown(evt) {
-  if (evt.key === 'Escape') {
-    closeSuccessMessage();
-  }
+  onEscapeKeydown(evt, closeSuccessMessage);
 }
 
 function onSuccessClick(evt) {
@@ -55,9 +59,7 @@ function onErrorButtonClick() {
 }
 
 function onErrorKeydown(evt) {
-  if (evt.key === 'Escape') {
-    closeErrorMessage();
-  }
+  onEscapeKeydown(evt, closeErrorMessage);
 }
 
 function onErrorClick(evt) {

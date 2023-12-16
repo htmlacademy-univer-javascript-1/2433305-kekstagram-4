@@ -1,8 +1,7 @@
 const commentTemplate = document.querySelector('.social__comment');
 const commentsLoader = document.querySelector('.comments-loader');
-const loadedComments = document.querySelector('.loaded-comments-count');
 
-const onDocumentKeydown = (evt) => {
+const onEscKeydown = (evt) => {
   if (evt.key === 'Escape') {
     closePicture(evt);
   }
@@ -20,14 +19,14 @@ const showNextComments = () => {
     currentComment = currentComment.nextElementSibling;
     if (currentComment === null) {
       commentsLoader.classList.add('hidden');
-      loadedComments.textContent =
-        +loadedComments.textContent + 1;
+      document.querySelector('.loaded-comments-count').textContent =
+        +document.querySelector('.loaded-comments-count').textContent + 1;
       break;
     }
   }
 
 
-  loadedComments.textContent = +loadedComments.textContent + i;
+  document.querySelector('.loaded-comments-count').textContent = +document.querySelector('.loaded-comments-count').textContent + i;
 };
 
 const loadAllComments = (commentsContainer, comments) => {
@@ -51,7 +50,7 @@ function openPicture(url, description, likes, comments) {
   openedPicture.querySelector('.likes-count').textContent = likes;
   openedPicture.querySelector('.comments-count').textContent = comments.length;
   openedPicture.querySelector('.social__caption').textContent = description;
-  document.querySelector('.loaded-comments-count').textContent = '0';
+  openedPicture.querySelector('.loaded-comments-count').textContent = '0';
 
 
   const commentsContainer = document.querySelector('.social__comments');
@@ -61,7 +60,7 @@ function openPicture(url, description, likes, comments) {
   document.body.classList.add('modal-open');
 
   openedPicture.querySelector('.big-picture__cancel').addEventListener('click', closePicture);
-  document.addEventListener('keydown', onDocumentKeydown);
+  document.addEventListener('keydown', onEscKeydown);
   openedPicture.querySelector('.social__comments-loader').addEventListener('click', showNextComments);
 }
 
@@ -69,7 +68,7 @@ function closePicture(evt) {
   document.body.classList.remove('modal-open');
   document.querySelector('.big-picture').classList.add('hidden');
   evt.target.removeEventListener('click', closePicture);
-  document.removeEventListener('keydown', onDocumentKeydown);
+  document.removeEventListener('keydown', onEscKeydown);
   document.querySelector('.social__comments-loader').removeEventListener('click', showNextComments);
   commentsLoader.classList.remove('hidden');
 }
