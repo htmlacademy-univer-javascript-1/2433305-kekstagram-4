@@ -2,6 +2,7 @@ import { getData } from './data-loader.js';
 import { renderPictures } from './drawMiniature.js';
 import { showFilter, setFilterClick} from './filter.js';
 import { debounce } from './utils.js';
+import { ERROR_DISPLAY_TIME } from './data.js';
 
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
@@ -19,7 +20,7 @@ const showAlert = (message) => {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, 5000);
+  }, ERROR_DISPLAY_TIME);
 };
 
 const setDataFromServer = () => {

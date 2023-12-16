@@ -1,3 +1,5 @@
+import { TIMEOUT_DELAY } from './data.js';
+
 function getRandomInteger (min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -23,7 +25,7 @@ function createRandomIdFromRangeGenerator (min, max) {
 }
 
 
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay = TIMEOUT_DELAY) {
   let timeoutId;
 
   return (...rest) => {

@@ -1,5 +1,6 @@
 const commentTemplate = document.querySelector('.social__comment');
 const commentsLoader = document.querySelector('.comments-loader');
+const loadedComments = document.querySelector('.loaded-comments-count');
 
 const onDocumentKeydown = (evt) => {
   if (evt.key === 'Escape') {
@@ -19,14 +20,14 @@ const showNextComments = () => {
     currentComment = currentComment.nextElementSibling;
     if (currentComment === null) {
       commentsLoader.classList.add('hidden');
-      document.querySelector('.loaded-comments-count').textContent =
-        +document.querySelector('.loaded-comments-count').textContent + 1;
+      loadedComments.textContent =
+        +loadedComments.textContent + 1;
       break;
     }
   }
 
 
-  document.querySelector('.loaded-comments-count').textContent = +document.querySelector('.loaded-comments-count').textContent + i;
+  loadedComments.textContent = +loadedComments.textContent + i;
 };
 
 const loadAllComments = (commentsContainer, comments) => {
@@ -50,7 +51,7 @@ function openPicture(url, description, likes, comments) {
   openedPicture.querySelector('.likes-count').textContent = likes;
   openedPicture.querySelector('.comments-count').textContent = comments.length;
   openedPicture.querySelector('.social__caption').textContent = description;
-  openedPicture.querySelector('.loaded-comments-count').textContent = '0';
+  document.querySelector('.loaded-comments-count').textContent = '0';
 
 
   const commentsContainer = document.querySelector('.social__comments');
