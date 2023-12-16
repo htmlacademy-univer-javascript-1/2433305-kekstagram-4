@@ -4,7 +4,7 @@ import { shuffle } from './utils.js';
 const pictureTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const picturesContainer = document.querySelector('.pictures');
 const picturesFragment = document.createDocumentFragment();
-const picturesHeader = document.querySelector('.pictures__title');
+const picturesHeader = picturesContainer.querySelector('.pictures__title');
 const picturesUpload = document.querySelector('.img-upload');
 const comparePosts = (postA, postB) => postB.likes - postA.likes;
 
